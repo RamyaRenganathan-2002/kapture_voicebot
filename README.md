@@ -82,9 +82,8 @@ Full details available in [`docs/hld_document.md`](docs/hld_document.md) (Sectio
 
 ## ✅ Test Coverage
 
-* **9 Manual Scenarios Tested** against live Vapi assistant + mock Express webhook:
+* **8 Manual Scenarios Tested** against live Vapi assistant + mock Express webhook:
   * **8 Full Passes**
-  * **1 Partial Pass** (silence timeout due to platform limitation)
 * **Detailed Logs:** Full transcripts and test matrix located in [`tests/manual_test_log.md`](tests/manual_test_log.md).
 
 ---
