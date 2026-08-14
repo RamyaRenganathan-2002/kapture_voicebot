@@ -45,3 +45,17 @@
 **Result:** ✅ PASS
 - `mark_disposition` fired with status: WRONG_PERSON
 - Debt/loan details never mentioned — auth gate held even in the rejection path
+
+## Test 6: Edge Case — Hardship Claim
+**Date:** 2026-08-14
+**Scenario:** Verified customer states they lost their job and cannot pay.
+
+**Result:** ✅ PASS
+- `escalate_to_agent` fired with reason: HARDSHIP_REQUEST
+
+## Test 7: Edge Case — Dispute Amount
+**Date:** 2026-08-14
+**Scenario:** Verified customer claims the loan isn't theirs.
+
+**Result:** ✅ PASS
+- `escalate_to_agent` fired with reason: DISPUTE
