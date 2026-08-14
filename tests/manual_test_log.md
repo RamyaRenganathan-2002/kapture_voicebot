@@ -29,3 +29,19 @@
 - Auth gate held correctly
 - Maya asked clarifying question (when/how paid) before logging
 - `mark_disposition` fired with status: ALREADY_PAID and accurate notes capturing UPI + timing
+
+## Test 4: Edge Case — Do Not Call
+**Date:** 2026-08-14
+**Scenario:** Verified customer demands to be added to do-not-call list mid-negotiation.
+
+**Result:** ✅ PASS
+- `mark_disposition` fired with status: DO_NOT_CALL
+- Call ended promptly rather than continuing negotiation
+
+## Test 5: Edge Case — Wrong Person
+**Date:** 2026-08-14
+**Scenario:** Person answering is not Rahul Sharma and Rahul is unavailable.
+
+**Result:** ✅ PASS
+- `mark_disposition` fired with status: WRONG_PERSON
+- Debt/loan details never mentioned — auth gate held even in the rejection path
