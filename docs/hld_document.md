@@ -177,7 +177,7 @@ sequenceDiagram
     Vapi->>STT: Real-time Audio Stream
     STT-->>Vapi: Transcribed Text Stream
 
-    rect rgb(240, 240, 240)
+    rect rgba(128, 128, 128, 0.15)
         note over Vapi, LLM: Auth Phase (No Debt Disclosed)
         Vapi->>LLM: Send Conversation State + Transcript
         LLM-->>Vapi: Request Verification ("Provide last 4 digits of PAN")
@@ -189,7 +189,7 @@ sequenceDiagram
         Server-->>LLM: Response: { verified: true, customer_name: "Rahul Sharma" }
     end
 
-    rect rgb(220, 245, 220)
+    rect rgba(46, 125, 50, 0.15)
         note over Vapi, LLM: Collections & Negotiation Phase
         LLM-->>Vapi: Disclose Debt & Ask PTP
         Vapi->>TTS: Audio Output ("₹8,499 overdue by 12 days...")
