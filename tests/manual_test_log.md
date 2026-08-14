@@ -59,3 +59,10 @@
 
 **Result:** ✅ PASS
 - `escalate_to_agent` fired with reason: DISPUTE
+
+## Test 8: Edge Case — Abusive Caller
+**Date:** 2026-08-14
+**Scenario:** Verified customer becomes hostile/abusive after debt disclosure.
+
+**Result:** ✅ PASS
+- One warning issued, then `mark_disposition` fired with status: NO_RESPONSE, notes documenting abusive language after warnings
