@@ -11,3 +11,12 @@
 - ⚠️ `send_payment_link` — need to confirm this actually fired in server logs, Maya claimed it sent but not confirmed in transcript
 
 **Notes:** Clean conversation flow, natural tone, correct closing.
+
+## Test 2: Happy Path Retest (Post Anti-Hallucination Fix)
+**Date:** 2026-08-14
+**Scenario:** Same as Test 1, after tightening system prompt to require tool confirmation before claiming success.
+
+**Result:** ✅ PASS
+- All 4 tools fired in correct sequence: verify_customer → log_promise_to_pay → send_payment_link → mark_disposition
+- `send_payment_link` now confirmed firing (previously hallucinated in Test 1)
+- ⚠️ Minor: `ptp_date` returned as 2024-06-14, seems like a stale/incorrect date parse — needs investigation, possibly a system prompt clarification on date handling
