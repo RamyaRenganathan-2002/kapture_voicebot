@@ -165,31 +165,44 @@ The diagram below mirrors the sequence actually observed in live test calls: gre
 sequenceDiagram
     autonumber
     actor Customer
-    participant Maya as Maya (Voice Agent)
-    participant Backend as Backend System
+    participant Telephony as Telephony / SIP
+    participant Vapi as Vapi Engine
+    participant STT as Deepgram STT
+    participant LLM as GPT-4o (Orchestrator)
+    participant Server as Mock Webhook API
+    participant TTS as ElevenLabs TTS
 
-    rect rgb(242, 242, 242)
-        note over Customer, Backend: Phase 1 — Verify Identity (no debt mentioned yet)
-        Maya->>Customer: Asks for ID (PAN digits / birth year)
-        Customer->>Maya: Provides code
-        Maya->>Backend: verify_customer(account_id, code)
-        Backend-->>Maya: verified: true
+    Customer->>Telephony: Answers Call
+    Telephony->>Vapi: Stream Audio
+    Vapi->>STT: Real-time Audio Stream
+    STT-->>Vapi: Transcribed Text Stream
+
+    rect rgb(240, 240, 240)
+        note over Vapi, LLM: Auth Phase (No Debt Disclosed)
+        Vapi->>LLM: Send Conversation State + Transcript
+        LLM-->>Vapi: Request Verification ("Provide last 4 digits of PAN")
+        Vapi->>TTS: Synthesize Speech
+        TTS-->>Customer: Play Audio
+        Customer->>Vapi: Speaks ("1-2-3-4")
+        Vapi->>LLM: Transcript ("1234")
+        LLM->>Server: Tool Call: verify_customer(account_id, "1234")
+        Server-->>LLM: Response: { verified: true, customer_name: "Rahul Sharma" }
     end
 
-    rect rgb(230, 244, 234)
-        note over Customer, Backend: Phase 2 — Reveal Debt & Negotiate
-        Maya->>Customer: "₹8,499 overdue, 12 days"
-        Customer->>Maya: Responds (will pay / already paid / dispute / etc.)
-        Maya->>Backend: Logs outcome (log_promise_to_pay / mark_disposition / escalate_to_agent)
-        Backend-->>Maya: success: true
+    rect rgb(220, 245, 220)
+        note over Vapi, LLM: Collections & Negotiation Phase
+        LLM-->>Vapi: Disclose Debt & Ask PTP
+        Vapi->>TTS: Audio Output ("₹8,499 overdue by 12 days...")
+        TTS-->>Customer: Play Audio
+        Customer->>Vapi: "I will pay this Friday."
+        LLM->>Server: Tool Call: log_promise_to_pay(date: "2026-08-14", amount: 8499)
+        Server-->>LLM: Response: { status: "SUCCESS", ptp_id: "PTP-9921" }
+        LLM->>Server: Tool Call: send_payment_link(channel: "SMS")
+        Server-->>LLM: Response: { link_sent: true }
     end
 
-    rect rgb(251, 234, 234)
-        note over Customer, Backend: Phase 3 — Close the Call
-        Maya->>Backend: mark_disposition(final status)
-        Backend-->>Maya: success: true
-        Maya->>Customer: Says goodbye, ends call
-    end
+    LLM-->>Vapi: Final Polite Goodbye
+    Vapi->>Customer: End Call
 ```
 
 **Phase 1 — Verify Identity** (no debt mentioned yet)
