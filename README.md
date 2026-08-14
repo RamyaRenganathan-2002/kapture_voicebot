@@ -4,7 +4,7 @@ An outbound AI voice agent for Kapture Finance that calls customers with overdue
 
 ---
 
-> 🎧 **Demo Recording:** Listen to a sample outbound call session on [Google Drive](https://drive.google.com/file/d/1S2MYO8hHau1RWnA6hcTxYI8bfLQRRs_Z/view?usp=sharing).
+> 🎧 **Demo Recording:** Here is the link to a walkthrough and a sample outbound call session on [Google Drive](https://drive.google.com/file/d/1S2MYO8hHau1RWnA6hcTxYI8bfLQRRs_Z/view?usp=sharing).
 
 ---
 
